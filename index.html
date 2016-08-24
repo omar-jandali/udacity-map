@@ -1,0 +1,62 @@
+<!--
+  This project was created and written by Omar Jandali for a Udacity FEND project: Neighborhood Map
+-->
+
+<!--
+  instructions:
+    download knockout framework to hand the following
+      creating markers
+      tracking clicks
+      events on markers
+      making the map
+      refreshing the map
+      all click events
+      **creating the markers should be a pert of the VIewModel(do no create them as knockout observables)
+    Asynchronous and Error handling
+      load all the data from the API asynchronously
+      errors should be handled gracefully
+      3rd party errors
+        message notifying the user the data is not loading (or)
+        there are no negative repercussions to the UI
+
+        *** should be able to handle errors if the browser has trouble initially reaching 3rd party app***
+        give the users the best possible experience that they can have with different errors
+
+    Load a fill screen map to your page using Google Map API
+      the http link that should be used to call the map as follows:
+        script src="http://maps.googleapis.com/maps/api/js?libraries=places&key=[YOUR_API_KEY](include within script tags)
+    Markers
+      write the code required to display 5 map markers of different locations that you are interested in within your neighborhood
+    implement a list view of the set of locations
+    filter
+      create filter options that uses the input field to filter the list view as well as the markers displayed by default (text or drop down menu for user to select from)
+    Functionality
+      when a map marker is clicked, use a 3rd party api to supplement more information about the specific location
+      (steetciew and places dont count as additional third party api) MUST PROVIDE ATTRIBUTES AND DATA SOURCE
+    Animation
+      animate the map marker when the list item is selected or items associated with the reletive marker
+    infowindow
+      populate the info window with information that is pulled about a specific location (minimum = location name)
+    intuitive use
+      everything in the map should be easy to use with minimal work required to do things like location input items or filtering items
+      you should be able to understand how the interface works without any effort and research involved
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Omar Jandali Udacity Map</title>
+    <script type="text/javascript" src="js/model.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <div id="container" >
+
+    </div>
+    <script type="text/javascript" src="collections/underscore.js"></script>
+    <script type="text/javascript" src="collections/backbone.js"></script>
+    <script type="text/javascript" src="collections/jquery-3.1.0.js"></script>
+    <script async defer src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDik_TF3x4yc96CvWWw12YQ4DMjoG3vfFM&v=3&callback=initMap"></script>
+  </body>
+</html>

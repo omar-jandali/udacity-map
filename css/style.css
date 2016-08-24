@@ -1,0 +1,13 @@
+html,
+body{
+  height: 100%;
+  width: 100%;
+  font-family: helvetica, sans-serif;
+  margin: 0px;
+  padding: 0px;
+  background-color: lightgrey;
+}
+
+#container {
+  height: 100%;
+}
