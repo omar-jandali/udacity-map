@@ -41,7 +41,7 @@ function setMarkers(){
     // the following are going to be all of the console testing code
     console.log(Locations.Restaurants[i].name);
     // THe following listener will display marker information once the marker is clicked
-    markerInfo = new google.maps.InfoWindow();
+    markerInfo = new google.maps.InfoWindow(document.getElementById("markerWindow"));
     marker.addListener("click", function(){
       setMarkerInfo(this, markerInfo);
     })
@@ -50,7 +50,7 @@ function setMarkers(){
 
 function setMarkerInfo(marker){
   markerInfo.marker = marker;
-  markerInfo.open(map, marker);
+  markerInfo.open(markerInfo, marker);
   markerInfo.setContent("<h1>" + marker.content.name + "</h1>");
   markerInfo.addListener('closeclick', function() {
     markerInfo.marker = null;
