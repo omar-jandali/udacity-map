@@ -33,7 +33,7 @@ var Locations = {
         city:"Los Angeles",
         state:"CA",
         zip:"90013"
-      }
+      },
       food:"Italian",
       location:{
         lat: 34.050076,
@@ -47,7 +47,7 @@ var Locations = {
         city:"Los Angeles",
         state:"CA",
         zip:"90013"
-      }
+      },
       food:"Spanish-Fusion",
       location:{
         lat: 34.047847,
@@ -61,7 +61,7 @@ var Locations = {
         city:"Los Angeles",
         state:"CA",
         zip:"90007"
-      }
+      },
       food:"North African Tacos",
       location:{
         lat: 34.025333,
@@ -75,7 +75,7 @@ var Locations = {
         city:"Los Angeles",
         state:"CA",
         zip:"90015"
-      }
+      },
       food:"Mexican",
       location:{
         lat: 34.035217,
@@ -89,7 +89,7 @@ var Locations = {
         city:"Los Angeles",
         state:"CA",
         zip:"90013"
-      }
+      },
       food:"Pie & Bakery",
       location:{
         lat: 34.045429,
@@ -103,7 +103,7 @@ var Locations = {
         city:"Los Angeles",
         state:"CA",
         zip:"90021"
-      }
+      },
       food:"Coffee Bar",
       location:{
         lat: 34.033292,

@@ -15,4 +15,44 @@ Different frameworks, libraries, and apis that will be used:
 There will be more comments specific to different things going on in the app
  */
 
+// The following are going to be a list of all the variables that are going to be used inthei project
+var map;
+var markerInfo;
+
 // THe following function is going to be the initial function that is going to be called in order to get the map to appear on the screen
+function initMap() {
+  // Constructor creates a new map - only center and zoom are required.
+  map = new google.maps.Map(document.getElementById('map'), Locations.initialLocation);
+  setMarkers();
+}
+
+// THe following function(s) are going to be used to display the content to the map
+function setMarkers(){
+  for(var i = 0; i < Locations.Restaurants.length; i++){
+    marker = new google.maps.Marker({
+      position: Locations.Restaurants[i].location,
+      animation: google.maps.Animation.BOUNCE,
+      id: i,
+      map: map,
+      content:{
+        name: Locations.Restaurants[i].name
+      }
+    });
+    // the following are going to be all of the console testing code
+    console.log(Locations.Restaurants[i].name);
+    // THe following listener will display marker information once the marker is clicked
+    markerInfo = new google.maps.InfoWindow();
+    marker.addListener("click", function(){
+      setMarkerInfo(this, markerInfo);
+    })
+  }
+}
+
+function setMarkerInfo(marker){
+  markerInfo.marker = marker;
+  markerInfo.open(map, marker);
+  markerInfo.setContent("<h1>" + marker.content.name + "</h1>");
+  markerInfo.addListener('closeclick', function() {
+    markerInfo.marker = null;
+  });
+}
