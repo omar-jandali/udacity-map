@@ -12,7 +12,8 @@ Different frameworks, libraries, and apis that will be used:
   api = Google Maps Javascript API, Google Street View API, Yelp
 
 There will be more comments specific to different things going on in the app
- */
+*/
+
 
 // The following is going to include all of the different variables that are going to be used in this project (some may be stored in objects)
 
@@ -27,11 +28,11 @@ var Locations = {
   },
   Restaurants:[
     {
-      name:"Maccheroni Republic",
+      name: "Maccheroni Republic",
       address:{
-        street:"332 South Broadway",
-        city:"Los Angeles",
-        state:"CA",
+        street:"332 South Broadway. ",
+        city:"Los Angeles, ",
+        state:"CA ",
         zip:"90013"
       },
       food:"Italian",
@@ -43,9 +44,9 @@ var Locations = {
     {
       name:"Baco Mercat",
       address:{
-        street:"408 South Main Street",
-        city:"Los Angeles",
-        state:"CA",
+        street:"408 South Main Street. ",
+        city:"Los Angeles, ",
+        state:"CA ",
         zip:"90013"
       },
       food:"Spanish-Fusion",
@@ -57,9 +58,9 @@ var Locations = {
     {
       name:"Revolutionario North African Tacos",
       address:{
-        street:"1436 West Jefferson Boulevard",
-        city:"Los Angeles",
-        state:"CA",
+        street:"1436 West Jefferson Boulevard. ",
+        city:"Los Angeles, ",
+        state:"CA ",
         zip:"90007"
       },
       food:"North African Tacos",
@@ -71,9 +72,9 @@ var Locations = {
     {
       name:"Mex Peru Gipsy",
       address:{
-        street:"414 E 12th St",
-        city:"Los Angeles",
-        state:"CA",
+        street:"414 E 12th St. ",
+        city:"Los Angeles, ",
+        state:"CA ",
         zip:"90015"
       },
       food:"Mexican",
@@ -85,9 +86,9 @@ var Locations = {
     {
       name:"Pie Hole",
       address:{
-        street:"714 Traction Ave",
-        city:"Los Angeles",
-        state:"CA",
+        street:"714 Traction Ave. ",
+        city:"Los Angeles, ",
+        state:"CA ",
         zip:"90013"
       },
       food:"Pie & Bakery",
@@ -99,9 +100,9 @@ var Locations = {
     {
       name:"Stumptown Coffee",
       address:{
-        street:"06 S Santa Fe Ave",
-        city:"Los Angeles",
-        state:"CA",
+        street:"06 S Santa Fe Ave. ",
+        city:"Los Angeles, ",
+        state:"CA ",
         zip:"90021"
       },
       food:"Coffee Bar",
