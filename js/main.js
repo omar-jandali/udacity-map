@@ -28,7 +28,7 @@ initialLocation = {
     lat: 34.043118,
     lng: -118.246436
   },
-  zoom: 14
+  zoom: 15
 }
 
 points = [
@@ -170,22 +170,21 @@ viewModel = function(){
 
     var infowindow = new google.maps.InfoWindow();
 
-    instafeedRequest = $(document).ready(function(){
+    var instafeedRequest = function(){
       var feed = new Instafeed({
-        get: "location",
-        locationId: "",
-        clientID: "53766a0bc22d40868283d39f92fdfd7b"
+        get: "tagged",
+        tagName: pointItem.formattedName(),
+        clientId: "bdcd7f0bf8ec454b94f78f4453e93aa8"
       });
       feed.run();
-    });
+    };
 
     google.maps.event.addListener(marker, 'click', function(){
       infowindow.open(map, this);
       infowindow.setContent('<div><h1>' + pointItem.name() +
                             '</h1><h2>' + pointItem.fullAddress() +
                             '</h2><img src=' + streetViewRequest +
-                            '><div id="instafeed">' + instafeedRequest +
-                            '</div</div>')
+                            '><div id="instafeed">' + '</div</div>' + instafeedRequest())
     });
 
   });
