@@ -13,7 +13,26 @@ body{
   position: relative;
 }
 
-#map{
+.map-canvas{
   width: 100%;
   height: 100%;
+}
+
+.options{
+  position: absolute;
+  width: 450px;
+  height: 200px;
+  background-color: white;
+  z-index: 10;
+  text-align: center;
+}
+
+#show-places{
+  width: 45%;
+  text-align: center;
+}
+
+#hide-places{
+  width: 45%;
+  text-align: center;
 }

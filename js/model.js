@@ -1,105 +1,65 @@
-
-/*
-var map;
-function initMap(){
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: initialLocation.center,
-    zoom: initialLocation.zoom
-  });
-
-  ko.applyBindings(viewModel);
+initialLocation = {
+  center:{
+    lat: 34.043118,
+    lng: -118.246436
+  },
+  zoom: 15
 }
 
-
-function point(data){
-  var self = this;
-
-  self.name = data.name;
-
-  self.street = data.street;
-  self.city = data.city;
-  self.state = data.state;
-  self.zip = data.sip;
-
-  self.lat = data.lat;
-  self.lng = data.lng;
-
-  self.map = map;
-
-  self.food = data.food;
-
-  self.pointMarker = new google.maps.Marker({
-    position: {
-      lat: self.lat,
-      lng: self.lng
-    },
-    map: map,
-    animation: google.maps.Animation.BOUNCE
-  })
-}
-
-function viewModel(){
-  var self = this;
-
-  self.pointsList = ko.observableArray([]);
-
-  points.forEach(function(point){
-    self.points.push(new pointMarker(point));
-  });
-
-}
-
-ko.applyBindings(viewModel);
-
-var marker = function(data){
-  var self = this;
-
-  this.street = ko.observable(data.street);
-  this.city = ko.observable(data.city);
-  this.state = ko.observable(data.state);
-  this.zip = ko.observable(data.zip);
-
-  this.lat = ko.observable(data.lat);
-  this.lng = ko.observable(data.lng);
-
-  this.name = ko.observable(data.name);
-  this.food = ko.observable(data.food);
-
-  this.map = ko.observable(data.map);
-
-  this.fullAddress = ko.computed(function(){
-    return self.street + self.city + self.state + self.zip;
-  });
-
-  this.formattedAddress = ko.computed(function(){
-    return self.street + "+" + self.city + "+" + self.state + "+" + self.zip;
-  });
-
-  this.position = ko.computed(function(){
-    return "Lat:" + this.lat + ",Lng:" + this.lng;
-  });
-};
-
-var markers = new google.maps.Map({
-  map: map,
-  title: marker.name,
-  position: {marker.lat, marker.lng}
-})
-
-var viewModel = function(){
-  var self = this;
-
-  self.myObservableLocations = ko.observableArray([]);
-
-  locations.forEach(function(marker){
-    self.locations.push( new markers(marker));
-  });
-
-  this.currentMakrer = ko.observable(this.location);
-}
-
-
-
-ko.applyBindings(viewModel());
-
-*/
+points = [
+  {
+    name: "Maccheroni Republic",
+    street:"332 South Broadway ",
+    city:"Los Angeles, ",
+    state:"CA ",
+    zip:"90013",
+    food:"Italian",
+    lat: 34.050076,
+    lng: -118.248646,
+    map: map
+  },
+  {
+    name:"Baco Mercat",
+    street:"408 South Main Street ",
+    city:"Los Angeles, ",
+    state:"CA ",
+    zip:"90013",
+    food:"Spanish-Fusion",
+    lat: 34.047847,
+    lng: -118.247222,
+    map: map
+  },
+  {
+    name:"Mex Peru Gipsy",
+    street:"414 E 12th St ",
+    city:"Los Angeles, ",
+    state:"CA ",
+    zip:"90015",
+    food:"Mexican",
+    lat: 34.035217,
+    lng: -118.255887,
+    map: map
+  },
+  {
+    name:"Pie Hole",
+    street:"714 Traction Ave ",
+    city:"Los Angeles, ",
+    state:"CA ",
+    zip:"90013",
+    food:"Pie & Bakery",
+    lat: 34.045429,
+    lng: -118.236258,
+    map: map
+  },
+  {
+    name:"Stumptown Coffee",
+    street:"806 S Santa Fe Ave ",
+    city:"Los Angeles, ",
+    state:"CA ",
+    zip:"90021",
+    food:"Coffee Bar",
+    lat: 34.033292,
+    lng: -118.229707,
+    map: map
+  }
+]

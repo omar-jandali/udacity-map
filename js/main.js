@@ -22,76 +22,11 @@ There will be more comments specific to different things going on in the app
 
 */
 
-
-initialLocation = {
-  center:{
-    lat: 34.043118,
-    lng: -118.246436
-  },
-  zoom: 15
-}
-
-points = [
-  {
-    name: "Maccheroni Republic",
-    street:"332 South Broadway ",
-    city:"Los Angeles, ",
-    state:"CA ",
-    zip:"90013",
-    food:"Italian",
-    lat: 34.050076,
-    lng: -118.248646,
-    map: map
-  },
-  {
-    name:"Baco Mercat",
-    street:"408 South Main Street ",
-    city:"Los Angeles, ",
-    state:"CA ",
-    zip:"90013",
-    food:"Spanish-Fusion",
-    lat: 34.047847,
-    lng: -118.247222,
-    map: map
-  },
-  {
-    name:"Mex Peru Gipsy",
-    street:"414 E 12th St ",
-    city:"Los Angeles, ",
-    state:"CA ",
-    zip:"90015",
-    food:"Mexican",
-    lat: 34.035217,
-    lng: -118.255887,
-    map: map
-  },
-  {
-    name:"Pie Hole",
-    street:"714 Traction Ave ",
-    city:"Los Angeles, ",
-    state:"CA ",
-    zip:"90013",
-    food:"Pie & Bakery",
-    lat: 34.045429,
-    lng: -118.236258,
-    map: map
-  },
-  {
-    name:"Stumptown Coffee",
-    street:"806 S Santa Fe Ave ",
-    city:"Los Angeles, ",
-    state:"CA ",
-    zip:"90021",
-    food:"Coffee Bar",
-    lat: 34.033292,
-    lng: -118.229707,
-    map: map
-  }
-]
-
 //This is going to be the initial map craetion
 
 var map;
+var infowindow;
+
 
 function initMap(){
   map = new google.maps.Map(document.getElementById('map'), {
@@ -100,27 +35,29 @@ function initMap(){
   });
 
   ko.applyBindings(viewModel());
+
+  infowindow = new google.maps.InfoWindow();
 }
 
 var point = function(obj){
   var self = this;
 
   this.name = ko.observable(obj.name);
-  this.street = ko.observable(obj.street);
-  this.city = ko.observable(obj.city);
-  this.state = ko.observable(obj.state);
-  this.zip = ko.observable(obj.zip);
+  this.street = obj.street;
+  this.city = obj.city;
+  this.state = obj.stat;
+  this.zip = obj.zip;
   this.food = ko.observable(obj.food);
   this.lat = ko.observable(obj.lat);
   this.lng = ko.observable(obj.lng);
-  this.map = ko.observable(map);
+  this.map = map;
 
   this.fullAddress = function(){
-    return self.street() + self.city() + "</br>" + self.state() + self.zip();
+    return self.street + self.city + "</br>" + self.state + self.zip;
   };
 
   this.formattedAddress = function(){
-    var currentStreet = self.street() + self.city() + self.state() + self.zip();
+    var currentStreet = self.street + self.city + self.state + self.zip;
     var newAddress = currentStreet.replace(/ /g, '+');
     return newAddress;
   };
@@ -159,7 +96,7 @@ viewModel = function(){
     marker = new google.maps.Marker({
       position: new google.maps.LatLng(pointItem.lat(), pointItem.lng()),
       map: map,
-      animation: google.maps.Animation.BOUNCE
+      animation: google.maps.Animation.DROP
     });
 
     var streetViewRequest = streetViewMain + streetViewSize + streetViewLocation +
@@ -167,8 +104,6 @@ viewModel = function(){
                             streetViewKey;
 
     console.log(streetViewRequest);
-
-    var infowindow = new google.maps.InfoWindow();
 
     var instafeedRequest = function(){
       var feed = new Instafeed({
@@ -180,17 +115,34 @@ viewModel = function(){
     };
 
     google.maps.event.addListener(marker, 'click', function(){
-      infowindow.open(map, this);
-      infowindow.setContent('<div><h1>' + pointItem.name() +
-                            '</h1><h2>' + pointItem.fullAddress() +
-                            '</h2><img src=' + streetViewRequest +
-                            '><div id="instafeed">' + '</div</div>' + instafeedRequest())
+      if(infowindow.marker != marker){
+        marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png'),
+        infowindow.open(map, this);
+        infowindow.setContent('<div><h1>' + pointItem.name() +
+        '</h1><h2>' + pointItem.fullAddress() +
+        '</h2><img src=' + streetViewRequest +
+        '><div id="instafeed">' + '</div</div>');
+      }
     });
 
+
   });
+
+  self.pointsList().forEach(function(pointItem){
+    document.getElementById('hide-places').addEventListener('click', function(){
+      pointItem.marker.setMap(null);
+    });
+    document.getElementById('show-places').addEventListener('click', function(){
+      pointItem.marker.setMap(map);
+    });
+  })
 
   self.pointsList().forEach(function(pointItem){
     self.pointAddress = pointItem.fullAddress();
     self.pointFormattedAddress = pointItem.formattedAddress();
   });
+
+  //document.getElementById('show-places').addEventListener();
+
+
 }
