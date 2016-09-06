@@ -42,7 +42,7 @@ function initMap(){
 var point = function(obj){
   var self = this;
 
-  this.name = ko.observable(obj.name);
+  this.name = obj.name;
   this.street = obj.street;
   this.city = obj.city;
   this.state = obj.stat;
@@ -63,7 +63,7 @@ var point = function(obj){
   };
 
   this.formattedName = function(){
-    var newName = self.name().replace(/ /g, '');
+    var newName = self.name.replace(/ /g, '');
     return newName;
   }
 
@@ -96,7 +96,7 @@ viewModel = function(){
     marker = new google.maps.Marker({
       position: new google.maps.LatLng(pointItem.lat(), pointItem.lng()),
       map: map,
-      animation: google.maps.Animation.DROP
+      animation: google.maps.Animation.DROP,
     });
 
     var streetViewRequest = streetViewMain + streetViewSize + streetViewLocation +
@@ -121,10 +121,9 @@ viewModel = function(){
         infowindow.setContent('<div><h1>' + pointItem.name() +
         '</h1><h2>' + pointItem.fullAddress() +
         '</h2><img src=' + streetViewRequest +
-        '><div id="instafeed">' + '</div</div>');
+        '><div id="instafeed">' + '</div</div>' + instafeedRequest());
       }
     });
-
 
   });
 
@@ -142,7 +141,6 @@ viewModel = function(){
     self.pointFormattedAddress = pointItem.formattedAddress();
   });
 
-  //document.getElementById('show-places').addEventListener();
 
 
 }
