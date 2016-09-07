@@ -58,9 +58,10 @@
           <input id="show-places" type="button" value="Show Places">
           <input id="hide-places" type="button" value="Hide Places">
         </div>
-        <ul class="locationList" data-binding="forEach: pointItem">
-          <li><span data-binding="text: pointName"></span></li>
+        <ul class="locationList" data-bind="foreach: pointsList">
+          <li><span data-bind="text: name"></span></li>
         </ul>
+        <p>Select Location: <input data-bind="value: pointsFilter, valueUpdate: 'afterkeydown'" /></p>
       </div>
       <div id="map" class="map-canvas"></div>
     </div>

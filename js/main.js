@@ -69,7 +69,7 @@ var point = function(obj){
 
 }
 
-viewModel = function(){
+var viewModel = function(){
   var self = this;
   var marker;
 
@@ -118,7 +118,7 @@ viewModel = function(){
       if(infowindow.marker != marker){
         marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png'),
         infowindow.open(map, this);
-        infowindow.setContent('<div><h1>' + pointItem.name() +
+        infowindow.setContent('<div><h1>' + pointItem.name +
         '</h1><h2>' + pointItem.fullAddress() +
         '</h2><img src=' + streetViewRequest +
         '><div id="instafeed">' + '</div</div>' + instafeedRequest());
@@ -142,5 +142,10 @@ viewModel = function(){
   });
 
 
+  self.pointsFilter = ko.computed(function(){
+    return ko.utils.arrayFilter(self.pointsList(), function(pointItem){
+      return pointItem.done = true;
+    })
+  })
 
 }
