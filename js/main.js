@@ -91,13 +91,14 @@ var viewModel = function(){
     console.log(pointItem.formattedName());
     console.log(pointItem.formattedAddress());
 
-    pointItem.marker = marker;
 
-    marker = new google.maps.Marker({
+    var marker = new google.maps.Marker({
       position: new google.maps.LatLng(pointItem.lat(), pointItem.lng()),
       map: map,
       animation: google.maps.Animation.DROP,
     });
+
+    pointItem.marker = marker;
 
     var streetViewRequest = streetViewMain + streetViewSize + streetViewLocation +
                             pointItem.formattedAddress() + streetViewPitch +
@@ -105,14 +106,6 @@ var viewModel = function(){
 
     console.log(streetViewRequest);
 
-    var instafeedRequest = function(){
-      var feed = new Instafeed({
-        get: "tagged",
-        tagName: pointItem.formattedName(),
-        clientId: "bdcd7f0bf8ec454b94f78f4453e93aa8"
-      });
-      feed.run();
-    };
 
     google.maps.event.addListener(marker, 'click', function(){
       if(infowindow.marker != marker){
@@ -121,10 +114,48 @@ var viewModel = function(){
         infowindow.setContent('<div><h1>' + pointItem.name +
         '</h1><h2>' + pointItem.fullAddress() +
         '</h2><img src=' + streetViewRequest +
-        '><div id="instafeed">' + '</div</div>' + instafeedRequest());
+        '><div id="instafeed">' + '</div</div>');
       }
     });
 
+    /*var instafeedRequest = function(){
+      var feed = new Instafeed({
+        get: "tagged",
+        tagName: pointItem.formattedName(),
+        clientId: "bdcd7f0bf8ec454b94f78f4453e93aa8",
+        accessToken: '1765600585.bdcd7f0.9e4f8dae1f464b01bbd334e33d113e41&scope',
+        scope: 'public_scope'
+      });
+      feed.run();
+    };*/
+
+    //instafeedRequest();
+
+    var fourSquareMain = 'https://api.foursquare.com/v2/venues/search';
+    var clientID = '?client_id=5LHFTY54EP5VLMYIIVZ0OQGMNZQEM2FUKDPFFA2OJHMO0AVI';
+    var clientSecret = '&client_secret=2TN3GQBAX4U2GPHGMCUZWS35Y2E5E2Y4NG0YWGVGNMXEPHAW';
+    var fourSquareVersion = '&v=20130815';
+    var fourSquareLL = '&ll=' + pointItem.lat() + ',' + pointItem.lng();
+    var fourSquareQuery = '&query=' + pointItem.name;
+
+    var fullFourSquareQuery = fourSquareMain + clientID + clientSecret + fourSquareVersion + fourSquareLL + fourSquareQuery;
+
+    var finalFSQuery = fullFourSquareQuery.replace(/ /g, '-');
+
+    console.log(finalFSQuery);
+
+    /*
+    ?client_id=CLIENT_ID
+    &client_secret=CLIENT_SECRET
+    &v=20130815
+    &ll=40.7,-74
+    &query=sushi
+    */
+
+    $.ajax({
+      type: 'GET',
+
+    })
   });
 
   self.pointsList().forEach(function(pointItem){
@@ -141,10 +172,9 @@ var viewModel = function(){
     self.pointFormattedAddress = pointItem.formattedAddress();
   });
 
-
   self.pointsFilter = ko.computed(function(){
     return ko.utils.arrayFilter(self.pointsList(), function(pointItem){
-      return pointItem.done = true;
+      return pointItem.done == true;
     })
   })
 
