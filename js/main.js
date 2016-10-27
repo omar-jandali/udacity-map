@@ -114,43 +114,54 @@ var viewModel = function(){
         infowindow.setContent('<div><h1>' + pointItem.name +
         '</h1><h2>' + pointItem.fullAddress() +
         '</h2><img src=' + streetViewRequest +
-        '><div id="instafeed">' + '</div</div>');
+        '><div id="instagram"></div></div>');
       }
     });
 
-    /*var instafeedRequest = function(){
-      var feed = new Instafeed({
-        get: "tagged",
-        tagName: pointItem.formattedName(),
-        clientId: "bdcd7f0bf8ec454b94f78f4453e93aa8",
-        accessToken: '1765600585.bdcd7f0.9e4f8dae1f464b01bbd334e33d113e41&scope',
-        scope: 'public_scope'
-      });
-      feed.run();
-    };*/
+    restaurantName = pointItem.formattedName();
 
-    //instafeedRequest();
+    var Instagram = {
+      config: {},
 
-    var fourSquareMain = 'https://api.foursquare.com/v2/venues/search';
-    var clientID = '?client_id=5LHFTY54EP5VLMYIIVZ0OQGMNZQEM2FUKDPFFA2OJHMO0AVI';
-    var clientSecret = '&client_secret=2TN3GQBAX4U2GPHGMCUZWS35Y2E5E2Y4NG0YWGVGNMXEPHAW';
-    var fourSquareVersion = '&v=20130815';
-    var fourSquareLL = '&ll=' + pointItem.lat() + ',' + pointItem.lng();
-    var fourSquareQuery = '&query=' + pointItem.name;
+      base_url: 'https://api.instagram.com/v1',
 
-    var fullFourSquareQuery = fourSquareMain + clientID + clientSecret + fourSquareVersion + fourSquareLL + fourSquareQuery;
+      init: function(option){
+        option = option || {};
 
-    var finalFSQuery = fullFourSquareQuery.replace(/ /g, '-');
+        this.config.client_id = option.client_id
+      },
 
-    console.log(finalFSQuery);
+      picturesByTag: function(restaurantName, callback){
+        var tagEndPoint = this.base_url + '/tags/' + formattedName +
+                          '/media/recent?client_id=' + this.config.client_id;
+        this.getJSON (tagEndPoint, callback);
+      },
 
-    /*
-    ?client_id=CLIENT_ID
-    &client_secret=CLIENT_SECRET
-    &v=20130815
-    &ll=40.7,-74
-    &query=sushi
-    */
+      getJSON: function(finalUrl, callback){
+        $.ajax({
+          type: 'GET',
+          url: finalUrl,
+          dataType: 'jsonp',
+          success: function(response){
+            if(typeof callback === 'function') callback(response);
+          }
+        });
+      }
+    }
+
+    Instagram.init({
+      client_id: '80bb16ad2a274a628753b1446a73eade'
+    });
+
+    Instagram.picturesByTag(function(response){
+      var $instagram = $('#instagram');
+      for (var i = 0; i < 5; i++){
+        imageLink = response.data[i].images.low_resolution.url;
+        $instagram.append('<img src="' + imageLink + '"/>')
+      }
+    })
+
+
 
     $.ajax({
       type: 'GET',
@@ -179,3 +190,4 @@ var viewModel = function(){
   })
 
 }
+
