@@ -119,6 +119,7 @@ var viewModel = function(){
     });
 
     restaurantName = pointItem.formattedName();
+    console.log(restaurantName)
 
     var Instagram = {
       config: {},
@@ -128,29 +129,29 @@ var viewModel = function(){
       init: function(option){
         option = option || {};
 
-        this.config.client_id = option.client_id
+        this.config.access_token = option.access_token
       },
 
-      picturesByTag: function(restaurantName, callback){
-        var tagEndPoint = this.base_url + '/tags/' + formattedName +
-                          '/media/recent?client_id=' + this.config.client_id;
-        this.getJSON (tagEndPoint, callback);
+      picturesByTag: function(){
+        console.log("restaurantName:", restaurantName);
+        var tagEndPoint = this.base_url + '/tags/' + restaurantName +
+                          '/media/recent?access_token=' + this.config.access_token +
+                          '&scope=public_content';
+        console.log(tagEndPoint)
+        this.getJSON (tagEndPoint);
       },
 
-      getJSON: function(finalUrl, callback){
+      getJSON: function(finalUrl){
         $.ajax({
           type: 'GET',
           url: finalUrl,
           dataType: 'jsonp',
-          success: function(response){
-            if(typeof callback === 'function') callback(response);
-          }
         });
       }
     }
 
     Instagram.init({
-      client_id: '80bb16ad2a274a628753b1446a73eade'
+      access_token: '1765600585.80bb16a.76cdd29c36ab4526aa74b10bab340e99'
     });
 
     Instagram.picturesByTag(function(response){
@@ -161,12 +162,6 @@ var viewModel = function(){
       }
     })
 
-
-
-    $.ajax({
-      type: 'GET',
-
-    })
   });
 
   self.pointsList().forEach(function(pointItem){
