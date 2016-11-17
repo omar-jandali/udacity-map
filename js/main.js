@@ -45,7 +45,7 @@ var point = function(obj){
   this.name = obj.name;
   this.street = obj.street;
   this.city = obj.city;
-  this.state = obj.stat;
+  this.state = obj.state;
   this.zip = obj.zip;
   this.food = ko.observable(obj.food);
   this.lat = ko.observable(obj.lat);
@@ -106,7 +106,6 @@ var viewModel = function(){
 
     console.log(streetViewRequest);
 
-
     google.maps.event.addListener(marker, 'click', function(){
       if(infowindow.marker != marker){
         marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png'),
@@ -121,6 +120,7 @@ var viewModel = function(){
     restaurantName = pointItem.formattedName();
     console.log(restaurantName)
 
+    /*
     var Instagram = {
       config: {},
 
@@ -147,8 +147,9 @@ var viewModel = function(){
           url: finalUrl,
           dataType: 'jsonp',
         });
-      }
     }
+  }
+
 
     Instagram.init({
       access_token: '1765600585.80bb16a.76cdd29c36ab4526aa74b10bab340e99'
@@ -161,6 +162,7 @@ var viewModel = function(){
         $instagram.append('<img src="' + imageLink + '"/>')
       }
     })
+    */
 
   });
 
@@ -185,4 +187,3 @@ var viewModel = function(){
   })
 
 }
-
