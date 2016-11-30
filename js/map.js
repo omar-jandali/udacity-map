@@ -21,13 +21,15 @@ function Location(name, lat, lng) {
              	position: new google.maps.LatLng(lat, lng),
              	map: map,
              	title: name,
-              animation: google.maps.Animation.BOUNCE
+              animation: google.maps.Animation.DROP
              	});
     google.maps.event.addListener(self.marker, 'click', function() {
-        // deactivate all list item
-        for (var i = 0; i < locationList.length; i++) {
-            locationList[i].isActive(false);
-        }
+      self.marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+
+      // deactivate all list item
+      for (var i = 0; i < locationList.length; i++) {
+          locationList[i].isActive(false);
+      }
 
     	// get info from Foursquare API
     	requestFoursquare(self.marker.getPosition().lat(),
