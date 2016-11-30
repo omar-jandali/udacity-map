@@ -1,75 +1,29 @@
-<!DOCTYPE html>
-<!--
-  This project was created and written by Omar Jandali for a Udacity FEND project: Neighborhood Map
--->
-
-<!--
-  instructions:
-    download knockout framework to hand the following
-      creating markers
-      tracking clicks
-      events on markers
-      making the map
-      refreshing the map
-      all click events
-      **creating the markers should be a pert of the VIewModel(do no create them as knockout observables)
-    Asynchronous and Error handling
-      load all the data from the API asynchronously
-      errors should be handled gracefully
-      3rd party errors
-        message notifying the user the data is not loading (or)
-        there are no negative repercussions to the UI
-
-        *** should be able to handle errors if the browser has trouble initially reaching 3rd party app***
-        give the users the best possible experience that they can have with different errors
-
-    Load a fill screen map to your page using Google Map API
-      the http link that should be used to call the map as follows:
-        script src="http://maps.googleapis.com/maps/api/js?libraries=places&key=[YOUR_API_KEY](include within script tags)
-    Markers
-      write the code required to display 5 map markers of different locations that you are interested in within your neighborhood
-    implement a list view of the set of locations
-    filter
-      create filter options that uses the input field to filter the list view as well as the markers displayed by default (text or drop down menu for user to select from)
-    Functionality
-      when a map marker is clicked, use a 3rd party api to supplement more information about the specific location
-      (steetciew and places dont count as additional third party api) MUST PROVIDE ATTRIBUTES AND DATA SOURCE
-    Animation
-      animate the map marker when the list item is selected or items associated with the reletive marker
-    infowindow
-      populate the info window with information that is pulled about a specific location (minimum = location name)
-    intuitive use
-      everything in the map should be easy to use with minimal work required to do things like location input items or filtering items
-      you should be able to understand how the interface works without any effort and research involved
--->
-
 <html>
-  <head>
-    <title>Omar Jandali Udacity Map</title>
-    <link rel="stylesheet" href="css/style.css">
-    <meta charset="utf-8">
-    <meta name=viewport content="width=device-width, initial-scale=1"
-  </head>
-  <body>
-    <div id="container">
-      <div class="options">
-        <h2>Welcome to Donwtown Los Angeles</h2>
-        <div>
-          <input id="show-places" type="button" value="Show Places">
-          <input id="hide-places" type="button" value="Hide Places">
-        </div>
-        <ul class="locationList" data-bind="foreach: pointsList">
-          <li><span data-bind="text: name"></span></li>
-        </ul>
-        <p>Select Location: <input data-bind="value: pointsFilter, valueUpdate: 'afterkeydown'" /></p>
-      </div>
-      <div id="map" class="map-canvas"></div>
-    </div>
-    <script type="text/javascript" src="collection/knockout-3.4.0.js"></script>
-    <script type="text/javascript" src="collection/instafeed.min.js"></script>
-    <script type="text/javascript" src="collection/jquery-3.1.0.js"></script>
-    <script type="text/javascript" src="js/model.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
-    <script async defer src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDik_TF3x4yc96CvWWw12YQ4DMjoG3vfFM&v=3&callback=initMap"></script>
-  </body>
+	<head>
+		<title>Project 5</title>
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <meta charset="utf-8">
+	    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script type="text/javascript" src="./js/knockout-3.3.0.js"></script>
+		<script type="text/javascript" src="./js/map.js"></script>
+		<link rel="stylesheet" type="text/css" href="./css/main.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	    </head>
+	<body>
+		<div class="container">
+			<div class="row">
+			     <div class="col-md-3 leftpanel">
+					<label>
+					Search:
+					<input data-bind="value: filterText, valueUpdate: 'afterkeydown'" type="text" id="search">
+					</label>
+					<ul class="list-group" data-bind="foreach: filtered_key_favorites">
+					    <li class="list-group-item" data-bind="text: name, click: $parent.locationSelected, css: {'active': isActive}"></li>
+					</ul>
+				</div>
+			      <div class="col-md-9" id="map-canvas"></div>
+	    	</div>
+    	</div>
+	</body>
 </html>
