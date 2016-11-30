@@ -4,8 +4,8 @@
 var infowindow = new google.maps.InfoWindow();
 google.maps.event.addListener(infowindow, 'closeclick', function() {
     // deactivate all list item
-    for (var i = 0; i < location_list.length; i++) {
-        location_list[i].isActive(false);
+    for (var i = 0; i < locationList.length; i++) {
+        locationList[i].isActive(false);
     }
 });
 
@@ -20,12 +20,13 @@ function Location(name, lat, lng) {
     self.marker = new google.maps.Marker({
              	position: new google.maps.LatLng(lat, lng),
              	map: map,
-             	title: name
+             	title: name,
+              animation: google.maps.Animation.BOUNCE
              	});
     google.maps.event.addListener(self.marker, 'click', function() {
         // deactivate all list item
-        for (var i = 0; i < location_list.length; i++) {
-            location_list[i].isActive(false);
+        for (var i = 0; i < locationList.length; i++) {
+            locationList[i].isActive(false);
         }
 
     	// get info from Foursquare API
@@ -78,38 +79,38 @@ function Location(name, lat, lng) {
 	}
 }
 
-var location_list;
+var locationList;
 
 // Overall viewmodel for this screen, along with initial state
 function LocationViewModel() {
     var self = this;
     self.filterText = ko.observable('');
-    location_list = [
+    locationList = [
         new Location("Maccheroni Republic", 34.050076, -118.248646),
         new Location("Baco Mercat", 34.047847, -118.247222),
         new Location("Max Peru Gipsy", 34.035217, -118.255887),
         new Location("Pie Hole", 34.045429, -118.236258),
         new Location("Stumptown Coffee", 34.033292, -118.229707),
     ];
-    self.key_favorites = ko.observableArray(location_list);
-    self.filtered_key_favorites = ko.computed(function() {
+    self.keyFavorites = ko.observableArray(locationList);
+    self.filtered_keyFavorites = ko.computed(function() {
     	var filter = self.filterText().toLowerCase();
 
         // close infowindow, deactivate all list
         infowindow.close();
-        ko.utils.arrayForEach(self.key_favorites(), function(item) {
+        ko.utils.arrayForEach(self.keyFavorites(), function(item) {
             item.isActive(false);
         });
 
     	if (!filter) {
     		// if the text box was empty, set all list to be visible
-    		ko.utils.arrayForEach(self.key_favorites(), function(item) {
+    		ko.utils.arrayForEach(self.keyFavorites(), function(item) {
     			item.marker.setVisible(true);
     		});
-    		return self.key_favorites();
+    		return self.keyFavorites();
     	} else {
             // if text box had some text
-    		return ko.utils.arrayFilter(self.key_favorites(), function(item) {
+    		return ko.utils.arrayFilter(self.keyFavorites(), function(item) {
     			// check if the entered string is in the list
     			if (item.name.toLowerCase().indexOf(filter) !== -1) {
     				item.marker.setVisible(true);
@@ -127,8 +128,8 @@ function LocationViewModel() {
         google.maps.event.trigger(this.marker, 'click');
 
         // when clicked, remove all active item in list
-        for (var i = 0; i < self.key_favorites().length; i++) {
-            var loc = self.key_favorites()[i];
+        for (var i = 0; i < self.keyFavorites().length; i++) {
+            var loc = self.keyFavorites()[i];
             loc.isActive(false);
         }
 
