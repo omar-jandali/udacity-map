@@ -1,8 +1,87 @@
 "use strict";
 
+var googleMapError = function(){
+	$('#map-canvas').append("<span class='google-maps-error'>Error: Unable to load Google Maps Data. Please try again later.</span>");
+};
+
+var map;
+
+function initialize() {
+  var mapOptions = {
+    zoom: 15,
+    center: new google.maps.LatLng(34.043118, -118.246439)
+  };
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+  ko.applyBindings(new LocationViewModel());
+
+}
+
+var locationList;
+
+// Overall viewmodel for this screen, along with initial state
+function LocationViewModel() {
+    var self = this;
+
+    self.filterText = ko.observable('');
+    locationList = [
+        new Location("Maccheroni Republic", 34.050076, -118.248646),
+        new Location("Baco Mercat", 34.047847, -118.247222),
+        new Location("Max Peru Gipsy", 34.035217, -118.255887),
+        new Location("Pie Hole", 34.045429, -118.236258),
+        new Location("Stumptown Coffee", 34.033292, -118.229707),
+    ];
+    self.keyFavorites = ko.observableArray(locationList);
+    self.filtered_keyFavorites = ko.computed(function() {
+    	var filter = self.filterText().toLowerCase();
+
+        // close infowindow, deactivate all list
+        ko.utils.arrayForEach(self.keyFavorites(), function(item) {
+            item.isActive(false);
+        });
+
+    	if (!filter) {
+    		// if the text box was empty, set all list to be visible
+    		ko.utils.arrayForEach(self.keyFavorites(), function(item) {
+    			item.marker.setVisible(true);
+    		});
+    		return self.keyFavorites();
+    	} else {
+            // if text box had some text
+    		return ko.utils.arrayFilter(self.keyFavorites(), function(item) {
+    			// check if the entered string is in the list
+    			if (item.name.toLowerCase().indexOf(filter) !== -1) {
+    				item.marker.setVisible(true);
+    				return true;
+    			} else {
+    				item.marker.setVisible(false);
+    				return false;
+    			}
+    		});
+    	}
+    }, self);
+
+    self.locationSelected = function() {
+      google.maps.event.trigger(this.marker, 'click');
+
+      // when clicked, remove all active item in list
+      for (var i = 0; i < self.keyFavorites().length; i++) {
+        var loc = self.keyFavorites()[i];
+        loc.isActive(false);
+      }
+
+      this.isActive(!this.isActive());
+    };
+
+}
+
+
 // marker info window
 function Location(name, lat, lng) {
     var self = this;
+
+    var infowindow = new google.maps.InfoWindow();
+
     // name of the location
     self.name = name;
 
@@ -15,6 +94,7 @@ function Location(name, lat, lng) {
              	title: name,
               animation: google.maps.Animation.DROP
              	});
+
     google.maps.event.addListener(self.marker, 'click', function() {
       self.marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
 
@@ -62,90 +142,21 @@ function Location(name, lat, lng) {
 			infowindow.setContent(content);
 			infowindow.open(map, self.marker);
 		})
-        // error handling
-        .error(function(jqXHR, textStatus, errorThrown) {
-            console.log("error: " + textStatus);
-            console.log(jqXHR.responseText);
-            infowindow.setContent('Could not find info of this location');
-			infowindow.open(map, self.marker);
-        });
-	}
-}
 
-var locationList;
-
-// Overall viewmodel for this screen, along with initial state
-function LocationViewModel() {
-    var self = this;
-    self.filterText = ko.observable('');
-    locationList = [
-        new Location("Maccheroni Republic", 34.050076, -118.248646),
-        new Location("Baco Mercat", 34.047847, -118.247222),
-        new Location("Max Peru Gipsy", 34.035217, -118.255887),
-        new Location("Pie Hole", 34.045429, -118.236258),
-        new Location("Stumptown Coffee", 34.033292, -118.229707),
-    ];
-    self.keyFavorites = ko.observableArray(locationList);
-    self.filtered_keyFavorites = ko.computed(function() {
-    	var filter = self.filterText().toLowerCase();
-
-        // close infowindow, deactivate all list
-        ko.utils.arrayForEach(self.keyFavorites(), function(item) {
-            item.isActive(false);
-        });
-
-    	if (!filter) {
-    		// if the text box was empty, set all list to be visible
-    		ko.utils.arrayForEach(self.keyFavorites(), function(item) {
-    			item.marker.setVisible(true);
-    		});
-    		return self.keyFavorites();
-    	} else {
-            // if text box had some text
-    		return ko.utils.arrayFilter(self.keyFavorites(), function(item) {
-    			// check if the entered string is in the list
-    			if (item.name.toLowerCase().indexOf(filter) !== -1) {
-    				item.marker.setVisible(true);
-    				return true;
-    			} else {
-    				item.marker.setVisible(false);
-    				return false;
-    			}
-    		});
-    	}
-    }, self);
-
-    var infowindow = new google.maps.InfoWindow();
+    // error handling
+    .error(function(jqXHR, textStatus, errorThrown) {
+        console.log("error: " + textStatus);
+        console.log(jqXHR.responseText);
+        infowindow.setContent('Could not find info of this location');
+	      infowindow.open(map, self.marker);
+    });
 
     google.maps.event.addListener(infowindow, 'closeclick', function() {
         // deactivate all list item
+        self.marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
         for (var i = 0; i < locationList.length; i++) {
             locationList[i].isActive(false);
         }
     });
-
-    self.locationSelected = function() {
-        google.maps.event.trigger(this.marker, 'click');
-
-        // when clicked, remove all active item in list
-        for (var i = 0; i < self.keyFavorites().length; i++) {
-            var loc = self.keyFavorites()[i];
-            loc.isActive(false);
-        }
-
-        this.isActive(!this.isActive());
-    };
-}
-
-var map;
-
-function initialize() {
-  var mapOptions = {
-    zoom: 15,
-    center: new google.maps.LatLng(34.043118, -118.246439)
-  };
-  map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
-  ko.applyBindings(new LocationViewModel());
-
+	}
 }
