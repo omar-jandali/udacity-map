@@ -1,14 +1,6 @@
 "use strict";
 
 // marker info window
-var infowindow = new google.maps.InfoWindow();
-google.maps.event.addListener(infowindow, 'closeclick', function() {
-    // deactivate all list item
-    for (var i = 0; i < locationList.length; i++) {
-        locationList[i].isActive(false);
-    }
-});
-
 function Location(name, lat, lng) {
     var self = this;
     // name of the location
@@ -36,7 +28,6 @@ function Location(name, lat, lng) {
     		self.marker.getPosition().lng(), this);
         self.isActive(true);
     });
-
 
 	function requestFoursquare(lat, lng) {
 		var foursquare_url = "https://api.foursquare.com/v2/venues/search?";
@@ -99,7 +90,6 @@ function LocationViewModel() {
     	var filter = self.filterText().toLowerCase();
 
         // close infowindow, deactivate all list
-        infowindow.close();
         ko.utils.arrayForEach(self.keyFavorites(), function(item) {
             item.isActive(false);
         });
@@ -125,6 +115,14 @@ function LocationViewModel() {
     	}
     }, self);
 
+    var infowindow = new google.maps.InfoWindow();
+
+    google.maps.event.addListener(infowindow, 'closeclick', function() {
+        // deactivate all list item
+        for (var i = 0; i < locationList.length; i++) {
+            locationList[i].isActive(false);
+        }
+    });
 
     self.locationSelected = function() {
         google.maps.event.trigger(this.marker, 'click');
@@ -149,6 +147,5 @@ function initialize() {
   map = new google.maps.Map(document.getElementById('map-canvas'),
       mapOptions);
   ko.applyBindings(new LocationViewModel());
-}
 
-google.maps.event.addDomListener(window, 'load', initialize);
+}
